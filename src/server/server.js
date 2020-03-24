@@ -16,13 +16,13 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Initialize the main project folder
-app.use(express.static('src/client'));
+app.use(express.static('dist'));
 
 
 // Setup Server
 const port = 3000;
 app.listen(port, () => { console.log(`Server running on port: ${port}`) });
-console.log(__dirname);
+
 app.get('/', (req, res) => {
-    res.sendFile('/client/views/index.html', { root: __dirname + '/..' });
+    res.sendFile('dist/index.html');
 });
