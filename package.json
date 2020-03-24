@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node src/server/server.js",
-    "build": "webpack",
+    "build-dev": "webpack --config webpack.dev.js",
+    "build-prod": "webpack --config webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "jlg",
