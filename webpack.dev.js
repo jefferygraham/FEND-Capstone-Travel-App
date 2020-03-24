@@ -7,6 +7,14 @@ module.exports = {
     mode: 'development',
     entry: './src/client/index.js',
     devtool: "source-map",
+    output: {
+        libraryTarget: 'var',
+        library: 'Client'
+    },
+    devServer: {
+        // Update port to 3000 for classroom
+        port: 3000
+    },
     module: {
         rules: [
             {
@@ -18,6 +26,10 @@ module.exports = {
                         presets: ['@babel/preset-env']
                     }
                 }
+            },
+            {
+                test: /\.scss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
             }
         ]
     },

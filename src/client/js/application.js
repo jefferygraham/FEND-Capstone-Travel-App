@@ -1,5 +1,6 @@
-function test() {
+function handleSubmit(evt) {
+    evt.preventDefault();
     alert('application.js exists');
 }
 
-export { test }
+export { handleSubmit }
