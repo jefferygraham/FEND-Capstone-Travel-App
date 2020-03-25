@@ -12,20 +12,14 @@ module.exports = {
         library: 'Client'
     },
     devServer: {
-        // Update port to 3000 for classroom
         port: 3000
     },
     module: {
         rules: [
             {
-                test: /\.m?js$/,
-                exclude: /(node_modules|bower_components)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env']
-                    }
-                }
+                test: '/\.js$/',
+                exclude: /node_modules/,
+                loader: "babel-loader"
             },
             {
                 test: /\.scss$/,

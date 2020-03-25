@@ -29,3 +29,8 @@ app.listen(port, () => { console.log(`Server running on port: ${port}`) });
 app.get('/', (req, res) => {
     res.sendFile('dist/index.html');
 });
+
+app.post('/destination', (req, res) => {
+    let data = req.body;
+    console.log(data);
+});

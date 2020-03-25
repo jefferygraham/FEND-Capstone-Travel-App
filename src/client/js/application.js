@@ -1,13 +1,29 @@
+const postFormData = async (url = '', data = {}) => {
+    const response = await fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        // Body data type must match "Content-Type" header        
+        body: JSON.stringify(data),
+    });
+
+    try {
+        const newData = await response.json();
+        console.log(`1: {newData}`)
+        return newData;
+    } catch (error) {
+        console.log("error", error);
+    }
+}
+
 function handleSubmit(evt) {
-    console.log(`${process.env.USERNAME}`)
-    fetch(`http://api.geonames.org/citiesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&lang=de&username=${userName}`)
-        .then((res) => {
-            return res.json();
-        })
-        .then((data) => {
-            const countryCode = data.geonames[0].countrycode;
-            document.getElementById('country-code').innerHTML = countryCode;
-        })
+    //retrieve values from form
+    let destination = document.getElementById('destination').value;
+    let departure = document.getElementById('departure').value;
+
+    postFormData('http://localhost:8080/destination', { destination: destination, departure: departure });
 }
 
 export { handleSubmit }
