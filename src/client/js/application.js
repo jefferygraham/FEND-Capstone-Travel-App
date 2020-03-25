@@ -23,7 +23,7 @@ function handleSubmit(evt) {
     let destination = document.getElementById('destination').value;
     let departure = document.getElementById('departure').value;
 
-    postFormData('http://localhost:8080/destination', { destination: destination });
+    postFormData('http://localhost:8080/destination', { destination: destination, departure: departure });
 }
 
 export { handleSubmit }
