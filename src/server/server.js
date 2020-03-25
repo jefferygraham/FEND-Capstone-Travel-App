@@ -22,6 +22,7 @@ const geonamesUsername = `username=${process.env.USER_NAME}`
 //Dark Sky API Data
 const darkSkyURL = 'https://api.darksky.net/forecast/';
 const darkSkyKey = `${process.env.DARKSKY_KEY}/`;
+const darkSkyExclude = '?exclude=currently,minutely,hourly,alerts,flags';
 
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -52,8 +53,8 @@ app.post('/destination', (req, res) => {
 
     let date = data.departure;
     date = new Date(date)
-    let seconds = date.getTime() / 1000;
-    console.log(location, seconds);
+    let tripInSeconds = date.getTime() / 1000;
+    console.log(location, tripInSeconds);
 
     fetch(`${geonamesURL}${location}${geonamesParameters}${geonamesUsername}`)
         .then((res) => {
@@ -71,15 +72,27 @@ app.post('/destination', (req, res) => {
             }
             return darkSkyInfo;
         })
-        .then((darkSkyData) => {
-            const longitude = darkSkyData.longitude;
-            const latitude = darkSkyData.latitude;
-            return fetch(`${darkSkyURL}${darkSkyKey}${latitude},${longitude}`)
+        .then((geoNamesData) => {
+            const longitude = geoNamesData.longitude;
+            const latitude = geoNamesData.latitude;
+
+            let now = new Date();
+            let nowInSeconds = now.getTime() / 1000;
+
+            let url = `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude}`;
+            const secondsInAWeek = 604800;
+
+            (tripInSeconds - nowInSeconds) < secondsInAWeek ? url += `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude}` : url += `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude},${tripInSeconds.toString()}`;
+
+            console.log(url);
+
+            return fetch(url)
                 .then((res) => {
                     return res.json()
                 })
                 .then((data) => {
-                    console.log(data);
+                    const summary = data.daily.summary;
+                    const icon = data.daily.icon;
                 })
         })
 });
