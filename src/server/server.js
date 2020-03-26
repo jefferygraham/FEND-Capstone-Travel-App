@@ -17,12 +17,17 @@ const fetch = require("node-fetch");
 //Geonames API URL & parameters
 const geonamesURL = 'http://api.geonames.org/searchJSON?q=';
 const geonamesParameters = '&maxRows=10&fuzzy=0.8&';
-const geonamesUsername = `username=${process.env.USER_NAME}`
+const geonamesUsername = `username=${process.env.GEONAMES_USERNAME}`;
 
 //Dark Sky API Data
 const darkSkyURL = 'https://api.darksky.net/forecast/';
 const darkSkyKey = `${process.env.DARKSKY_KEY}/`;
 const darkSkyExclude = '?exclude=currently,minutely,hourly,alerts,flags';
+
+//Pixabay URL
+const pixabayURL = 'https://pixabay.com/api/?key=';
+const pixabayKey = `${process.env.PIXABAY_KEY}&q=`;
+const pixabayParameters = '&image_type=photo';
 
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -65,12 +70,12 @@ app.post('/destination', (req, res) => {
             let latitude = data.geonames[0].lat;
             let country = data.geonames[0].countryName;
 
-            let darkSkyInfo = {
+            let geonamesInfo = {
                 longitude: longitude,
                 latitude: latitude,
                 country: country
             }
-            return darkSkyInfo;
+            return geonamesInfo;
         })
         .then((geoNamesData) => {
             const longitude = geoNamesData.longitude;
@@ -84,8 +89,6 @@ app.post('/destination', (req, res) => {
 
             (tripInSeconds - nowInSeconds) < secondsInAWeek ? url += `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude}` : url += `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude},${tripInSeconds.toString()}`;
 
-            console.log(url);
-
             return fetch(url)
                 .then((res) => {
                     return res.json()
@@ -93,6 +96,21 @@ app.post('/destination', (req, res) => {
                 .then((data) => {
                     const summary = data.daily.summary;
                     const icon = data.daily.icon;
+                    let darkskyInfo = {
+                        summary: summary,
+                        icon: icon
+                    }
+                    return darkskyInfo;
                 })
         })
+        .then((darkSkyData) => {
+            fetch(`${pixabayURL}${pixabayKey}${location}${pixabayParameters}`)
+                .then((res) => {
+                    return res.json()
+                })
+                .then((data) => {
+                    console.log(data.hits[0].webformatURL);
+                })
+        })
+
 });
