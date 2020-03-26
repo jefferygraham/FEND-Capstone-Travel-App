@@ -19,11 +19,14 @@ const postFormData = async (url = '', data = {}) => {
 }
 
 function handleSubmit(evt) {
+    evt.preventDefault();
+
     //retrieve values from form
     let destination = document.getElementById('destination').value;
     let departure = document.getElementById('departure').value;
 
-    postFormData('http://localhost:8080/destination', { destination: destination, departure: departure });
+    postFormData('http://localhost:8081/destination', { destination: destination, departure: departure })
+
 }
 
 export { handleSubmit }

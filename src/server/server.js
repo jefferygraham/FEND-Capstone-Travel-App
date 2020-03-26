@@ -42,7 +42,7 @@ app.use(express.static('dist'));
 
 
 // Setup Server
-const port = 8080;
+const port = 8081;
 app.listen(port, () => { console.log(`Server running on port: ${port}`) });
 
 app.get('/', (req, res) => {
@@ -88,7 +88,7 @@ app.post('/destination', (req, res) => {
             const secondsInAWeek = 604800;
 
             (tripInSeconds - nowInSeconds) < secondsInAWeek ? url += `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude}` : url += `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude},${tripInSeconds.toString()}`;
-
+            console.log(url);
             return fetch(url)
                 .then((res) => {
                     return res.json()
@@ -119,7 +119,9 @@ app.post('/destination', (req, res) => {
                         icon: darkSkyData.icon,
                         photoUrl: photoUrl
                     }
-                    return clientObject;
+                    res.send(clientObject);
                 })
+
         })
+        .catch(e => console.log(e));
 });
