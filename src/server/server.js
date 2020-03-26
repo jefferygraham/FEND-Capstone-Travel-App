@@ -49,6 +49,71 @@ app.get('/', (req, res) => {
     res.sendFile('dist/index.html');
 });
 
+const parseGeonamesData = (data) => {
+
+    let longitude = data.geonames[0].lng;
+    let latitude = data.geonames[0].lat;
+    let country = data.geonames[0].countryName;
+
+    let geonamesInfo = {
+        longitude: longitude,
+        latitude: latitude,
+        country: country
+    }
+    console.log(geonamesInfo);
+    return geonamesInfo;
+}
+
+const getDarkSkyData = (data, tripInSeconds) => {
+    const longitude = data.longitude;
+    const latitude = data.latitude;
+
+    let now = new Date();
+    let nowInSeconds = now.getTime() / 1000;
+
+    let url = `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude}`;
+    const secondsInAWeek = 604800;
+
+    (tripInSeconds - nowInSeconds) < secondsInAWeek ? url += `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude}` : url += `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude},${tripInSeconds.toString()}`;
+    console.log(url);
+    return fetch(url)
+        .then((res) => {
+            return res.json()
+        })
+        .then((data) => {
+            const summary = data.daily.summary;
+            const icon = data.daily.icon;
+            let darkskyInfo = {
+                summary: summary,
+                icon: icon
+            }
+            return darkskyInfo;
+        })
+}
+
+const getPixabayData = (data, location) => {
+    const clientObject = {
+        summary: data.summary,
+        icon: data.icon,
+    }
+
+    return fetch(`${pixabayURL}${pixabayKey}${location}${pixabayParameters}`)
+        .then((res) => {
+            return res.json()
+        })
+        .then((newData) => {
+            let photoUrl = '';
+            const results = newData.hits;
+
+            results.length > 0 ? photoUrl += results[0].webformatURL : photoUrl += '';
+
+            clientObject['photoUrl'] = photoUrl;
+
+            return clientObject;
+        })
+}
+
+
 app.post('/destination', (req, res) => {
     let data = req.body;
     console.log(data);
@@ -66,62 +131,16 @@ app.post('/destination', (req, res) => {
             return res.json()
         })
         .then((data) => {
-            let longitude = data.geonames[0].lng;
-            let latitude = data.geonames[0].lat;
-            let country = data.geonames[0].countryName;
-
-            let geonamesInfo = {
-                longitude: longitude,
-                latitude: latitude,
-                country: country
-            }
-            return geonamesInfo;
+            return parseGeonamesData(data);
         })
         .then((geoNamesData) => {
-            const longitude = geoNamesData.longitude;
-            const latitude = geoNamesData.latitude;
-
-            let now = new Date();
-            let nowInSeconds = now.getTime() / 1000;
-
-            let url = `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude}`;
-            const secondsInAWeek = 604800;
-
-            (tripInSeconds - nowInSeconds) < secondsInAWeek ? url += `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude}` : url += `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude},${tripInSeconds.toString()}`;
-            console.log(url);
-            return fetch(url)
-                .then((res) => {
-                    return res.json()
-                })
-                .then((data) => {
-                    const summary = data.daily.summary;
-                    const icon = data.daily.icon;
-                    let darkskyInfo = {
-                        summary: summary,
-                        icon: icon
-                    }
-                    return darkskyInfo;
-                })
+            return getDarkSkyData(geoNamesData, tripInSeconds);
         })
         .then((darkSkyData) => {
-            return fetch(`${pixabayURL}${pixabayKey}${location}${pixabayParameters}`)
-                .then((res) => {
-                    return res.json()
-                })
-                .then((data) => {
-                    let photoUrl = '';
-                    const results = data.hits;
-
-                    results.length > 0 ? photoUrl += results[0].webformatURL : photoUrl += '';
-
-                    let clientObject = {
-                        summary: darkSkyData.summary,
-                        icon: darkSkyData.icon,
-                        photoUrl: photoUrl
-                    }
-                    res.send(clientObject);
-                })
-
+            return getPixabayData(darkSkyData, location);
+        })
+        .then((data) => {
+            res.send(data);
         })
         .catch(e => console.log(e));
 });
