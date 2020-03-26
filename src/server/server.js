@@ -104,13 +104,22 @@ app.post('/destination', (req, res) => {
                 })
         })
         .then((darkSkyData) => {
-            fetch(`${pixabayURL}${pixabayKey}${location}${pixabayParameters}`)
+            return fetch(`${pixabayURL}${pixabayKey}${location}${pixabayParameters}`)
                 .then((res) => {
                     return res.json()
                 })
                 .then((data) => {
-                    console.log(data.hits[0].webformatURL);
+                    let photoUrl = '';
+                    const results = data.hits;
+
+                    results.length > 0 ? photoUrl += results[0].webformatURL : photoUrl += '';
+
+                    let clientObject = {
+                        summary: darkSkyData.summary,
+                        icon: darkSkyData.icon,
+                        photoUrl: photoUrl
+                    }
+                    return clientObject;
                 })
         })
-
 });
