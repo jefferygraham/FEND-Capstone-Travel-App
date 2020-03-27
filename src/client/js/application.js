@@ -18,6 +18,12 @@ const postFormData = async (url = '', data = {}) => {
     }
 }
 
+const updateUI = (data) => {
+    document.getElementById('summary').innerHTML = `Summary: ${data.summary}`;
+    document.getElementById('high-temp').innerHTML = `High Temperature: ${data.highTemp}`;
+    document.getElementById('low-temp').innerHTML = `Low Temperature: ${data.lowTemp}`;
+}
+
 function handleSubmit(evt) {
     evt.preventDefault();
 
@@ -26,7 +32,9 @@ function handleSubmit(evt) {
     let departure = document.getElementById('departure').value;
 
     postFormData('http://localhost:8081/destination', { destination: destination, departure: departure })
-
+        .then((data) => {
+            updateUI(data);
+        })
 }
 
 export { handleSubmit }

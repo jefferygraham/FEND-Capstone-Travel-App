@@ -29,6 +29,70 @@ const pixabayURL = 'https://pixabay.com/api/?key=';
 const pixabayKey = `${process.env.PIXABAY_KEY}&q=`;
 const pixabayParameters = '&image_type=photo';
 
+const parseGeonamesData = (data) => {
+
+    const longitude = data.geonames[0].lng;
+    const latitude = data.geonames[0].lat;
+    const country = data.geonames[0].countryName;
+    const geonamesInfo = {
+        longitude: longitude,
+        latitude: latitude,
+        country: country
+    }
+
+    console.log(geonamesInfo);
+    return geonamesInfo;
+}
+
+const getDarkSkyData = (data, tripInSeconds) => {
+    const longitude = data.longitude;
+    const latitude = data.latitude;
+    const url = `${darkSkyURL}${darkSkyKey}${latitude},${longitude},${tripInSeconds.toString()}${darkSkyExclude}`;
+
+    console.log(url);
+    return fetch(url)
+        .then((res) => {
+            return res.json()
+        })
+        .then((data) => {
+            const summary = data.daily.data[0].summary;
+            const icon = data.daily.data[0].icon;
+            const highTemp = data.daily.data[0].temperatureHigh;
+            const lowTemp = data.daily.data[0].temperatureLow;
+            const darkskyInfo = {
+                summary: summary,
+                icon: icon,
+                highTemp: highTemp,
+                lowTemp: lowTemp
+            }
+            return darkskyInfo;
+        })
+}
+
+const getPixabayData = (data, location) => {
+    const clientObject = {
+        summary: data.summary,
+        icon: data.icon,
+        highTemp: data.highTemp,
+        lowTemp: data.lowTemp
+    }
+
+    return fetch(`${pixabayURL}${pixabayKey}${location}${pixabayParameters}`)
+        .then((res) => {
+            return res.json()
+        })
+        .then((newData) => {
+            let photoUrl = '';
+            const results = newData.hits;
+
+            results.length > 0 ? photoUrl += results[0].webformatURL : photoUrl += '';
+
+            clientObject['photoUrl'] = photoUrl;
+
+            return clientObject;
+        })
+}
+
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -49,81 +113,17 @@ app.get('/', (req, res) => {
     res.sendFile('dist/index.html');
 });
 
-const parseGeonamesData = (data) => {
-
-    let longitude = data.geonames[0].lng;
-    let latitude = data.geonames[0].lat;
-    let country = data.geonames[0].countryName;
-
-    let geonamesInfo = {
-        longitude: longitude,
-        latitude: latitude,
-        country: country
-    }
-    console.log(geonamesInfo);
-    return geonamesInfo;
-}
-
-const getDarkSkyData = (data, tripInSeconds) => {
-    const longitude = data.longitude;
-    const latitude = data.latitude;
-
-    let now = new Date();
-    let nowInSeconds = now.getTime() / 1000;
-
-    let url = `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude}`;
-    const secondsInAWeek = 604800;
-
-    (tripInSeconds - nowInSeconds) < secondsInAWeek ? url += `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude}` : url += `${darkSkyURL}${darkSkyKey}${latitude},${longitude}${darkSkyExclude},${tripInSeconds.toString()}`;
-    console.log(url);
-    return fetch(url)
-        .then((res) => {
-            return res.json()
-        })
-        .then((data) => {
-            const summary = data.daily.summary;
-            const icon = data.daily.icon;
-            let darkskyInfo = {
-                summary: summary,
-                icon: icon
-            }
-            return darkskyInfo;
-        })
-}
-
-const getPixabayData = (data, location) => {
-    const clientObject = {
-        summary: data.summary,
-        icon: data.icon,
-    }
-
-    return fetch(`${pixabayURL}${pixabayKey}${location}${pixabayParameters}`)
-        .then((res) => {
-            return res.json()
-        })
-        .then((newData) => {
-            let photoUrl = '';
-            const results = newData.hits;
-
-            results.length > 0 ? photoUrl += results[0].webformatURL : photoUrl += '';
-
-            clientObject['photoUrl'] = photoUrl;
-
-            return clientObject;
-        })
-}
-
-
 app.post('/destination', (req, res) => {
-    let data = req.body;
-    console.log(data);
+    const data = req.body;
+
     //parse destination from req object
     let location = data.destination;
     location = location.replace(/\s+/g, '');
 
     let date = data.departure;
     date = new Date(date)
-    let tripInSeconds = date.getTime() / 1000;
+
+    const tripInSeconds = date.getTime() / 1000;
     console.log(location, tripInSeconds);
 
     fetch(`${geonamesURL}${location}${geonamesParameters}${geonamesUsername}`)
