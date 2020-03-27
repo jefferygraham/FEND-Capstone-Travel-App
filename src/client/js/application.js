@@ -18,10 +18,11 @@ const postFormData = async (url = '', data = {}) => {
     }
 }
 
-const updateUI = (data) => {
+const updateUI = (data, departure) => {
+    document.getElementById('trip-date').innerHTML = `Date: ${departure}`;
     document.getElementById('summary').innerHTML = `Summary: ${data.summary}`;
-    document.getElementById('high-temp').innerHTML = `High Temperature: ${data.highTemp}`;
-    document.getElementById('low-temp').innerHTML = `Low Temperature: ${data.lowTemp}`;
+    document.getElementById('high-temp').innerHTML = `High Temperature: ${data.highTemp}` + '\u00B0' + 'F.';
+    document.getElementById('low-temp').innerHTML = `Low Temperature: ${data.lowTemp}` + '\u00B0' + 'F.';
 }
 
 function handleSubmit(evt) {
@@ -33,7 +34,7 @@ function handleSubmit(evt) {
 
     postFormData('http://localhost:8081/destination', { destination: destination, departure: departure })
         .then((data) => {
-            updateUI(data);
+            updateUI(data, departure);
         })
 }
 
