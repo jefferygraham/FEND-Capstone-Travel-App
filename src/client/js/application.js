@@ -18,7 +18,7 @@ const postFormData = async (url = '', data = {}) => {
     }
 }
 
-const getDate = (date) => {
+const formatDate = (date) => {
     let d = new Date(date);
     let month = d.toLocaleString('default', { month: 'long' });
     let day = d.getDate() + 1;
@@ -27,9 +27,18 @@ const getDate = (date) => {
     return newDate;
 }
 
+const numDays = (date) => {
+    const tripDateSeconds = new Date(date).getTime() / 1000;
+    const todaySeconds = new Date().getTime() / 1000;
+
+    return Math.ceil((tripDateSeconds - todaySeconds) / 86400);
+
+}
+
 const updateUI = (data, departure) => {
-    const tripDate = getDate(departure)
-    document.getElementById('trip-date').innerHTML = `Your trip on ${tripDate}`;
+    const formattedDate = formatDate(departure);
+    const daysUntilTrip = numDays(departure);
+    document.getElementById('trip-date').innerHTML = `Your trip on ${formattedDate} is ${daysUntilTrip} day(s) away.`;
     document.getElementById('summary').innerHTML = `Summary: ${data.summary}`;
     document.getElementById('high-temp').innerHTML = `High Temperature: ${data.highTemp}` + '\u00B0' + 'F.';
     document.getElementById('low-temp').innerHTML = `Low Temperature: ${data.lowTemp}` + '\u00B0' + 'F.';
