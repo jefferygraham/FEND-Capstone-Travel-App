@@ -1,13 +1,18 @@
 body {
     font-family: 'Roboto', sans-serif;
     color: #333;
-  }
-  
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  * {
-    box-sizing: border-box;
-  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/*Colors*/
+$paynes-grey: #586f7c;
+$columbia-blue: #b8dbd9;
+$white-smoke: #f4f4f9;

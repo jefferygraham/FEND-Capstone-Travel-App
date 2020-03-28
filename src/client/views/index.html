@@ -7,10 +7,11 @@
     <title>Travel Planner</title>
 </head>
 <body>
-    <header>
+    <header class="header">
         <h1>Travel Planner</h1>
     </header>
-    <section>
+    <section class="entry">
+        <h2>Entry</h2>
         <form onsubmit="return Client.handleSubmit(event)">
             <label for="destination">Destination:</label>
             <input type="text" id="destination" name="destination" required>
@@ -19,7 +20,8 @@
             <input type="submit" value="Submit" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
         </form>
     </section>
-    <section>
+    <section class="results">
+        <h2>Results</h2>
         <div>
             <p id="trip-date"></p>
             <p id="summary"></p>
@@ -27,7 +29,8 @@
             <p id="low-temp"></p>
         </div>
     </section>
-    <footer>
+    <footer class="results">
+        <h2>Footer</h2>
         <p>Copyright</p>
     </footer>
 </body>

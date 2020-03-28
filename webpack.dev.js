@@ -2,6 +2,12 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const postCSSPlugins = [
+    require('postcss-import'),
+    require('postcss-simple-vars'),
+    require('postcss-nested'),
+    require('autoprefixer')
+];
 
 module.exports = {
     mode: 'development',
@@ -23,7 +29,12 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader',
+                    { loader: 'postcss-loader', options: { plugins: postCSSPlugins } }
+                ]
             }
         ]
     },
