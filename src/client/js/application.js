@@ -28,9 +28,12 @@ const formatDate = (date) => {
 }
 
 const numDays = (date) => {
+    //Turn departure date and current date to seconds from epoch
     const tripDateSeconds = new Date(date).getTime() / 1000;
     const todaySeconds = new Date().getTime() / 1000;
 
+    //find the difference in seconds and divide by 86400(number of seconds in a day)
+    //Then round up
     return Math.ceil((tripDateSeconds - todaySeconds) / 86400);
 
 }
