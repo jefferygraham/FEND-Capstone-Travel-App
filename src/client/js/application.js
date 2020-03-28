@@ -18,8 +18,18 @@ const postFormData = async (url = '', data = {}) => {
     }
 }
 
+const getDate = (date) => {
+    let d = new Date(date);
+    let month = d.toLocaleString('default', { month: 'long' });
+    let day = d.getDate() + 1;
+    let year = d.getFullYear();
+    let newDate = `${month} ${day}, ${year}`;
+    return newDate;
+}
+
 const updateUI = (data, departure) => {
-    document.getElementById('trip-date').innerHTML = `Date: ${departure}`;
+    const tripDate = getDate(departure)
+    document.getElementById('trip-date').innerHTML = `Your trip on ${tripDate}`;
     document.getElementById('summary').innerHTML = `Summary: ${data.summary}`;
     document.getElementById('high-temp').innerHTML = `High Temperature: ${data.highTemp}` + '\u00B0' + 'F.';
     document.getElementById('low-temp').innerHTML = `Low Temperature: ${data.lowTemp}` + '\u00B0' + 'F.';

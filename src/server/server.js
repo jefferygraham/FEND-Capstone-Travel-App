@@ -131,6 +131,7 @@ app.post('/destination', (req, res) => {
             return res.json()
         })
         .then((data) => {
+            console.log(data);
             return parseGeonamesData(data);
         })
         .then((geoNamesData) => {

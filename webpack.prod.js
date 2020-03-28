@@ -4,6 +4,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const postCSSPlugins = [
+    require('postcss-import'),
+    require('postcss-simple-vars'),
+    require('postcss-nested'),
+    require('autoprefixer')
+];
 
 module.exports = {
     mode: 'production',
@@ -30,7 +36,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/i,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader', { loader: 'postcss-loader', options: { plugins: postCSSPlugins } }],
             }
         ]
     },
