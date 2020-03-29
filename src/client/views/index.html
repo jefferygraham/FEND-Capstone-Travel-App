@@ -12,26 +12,26 @@
         <h1 class="header__title">Travel Planner</h1>
     </header>
     <section class="entry">
-        <form onsubmit="return Client.handleSubmit(event)">
-            <label for="destination">Destination:</label>
+        <img src="../media/travel-planner_1280.jpg" >   
+        <form class="entry__form" onsubmit="return Client.handleSubmit(event)">
+            <label class="entry__label" for="destination">Destination:</label>
             <input class="entry__text" type="text" id="destination" name="destination" required>
-            <label for="departure">Departure Date:</label>
-            <input type="date" id="departure" name="departure" required>
+            <label class="entry__label" for="departure">Departure Date:</label>
+            <input class="entry__date" type="date" id="departure" name="departure" required>
             <input class="entry__submit" type="submit" value="Submit" onclick="return Client.handleSubmit(event)" onsubmit="return Client.handleSubmit(event)">
         </form>
     </section>
     <section class="results">
         <div>
-            <p id="trip-date"></p>
-            <p id="summary"></p>
-            <p id="high-temp"></p>
-            <p id="low-temp"></p>
-            <div id="picture"></div>
+            <p id="results__date"></p>
+            <p id="results__summary"></p>
+            <p id="results__high"></p>
+            <p id="results__low"></p>
+            <div id="results__picture"></div>
         </div>
     </section>
-    <footer class="results">
-        <h2>Footer</h2>
-        <p>Copyright</p>
+    <footer class="footer container">
+        <p class="footer__text">Copyright</p>
     </footer>
 </body>
 </html>

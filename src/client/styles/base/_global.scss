@@ -1,11 +1,26 @@
+html {
+  height: 100%;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     color: $paynes-grey;
+    height: 100%;
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 4.6875rem 1fr 2fr 3.125rem;
+}
+
+label, input {
+  display: block;
+  margin-top: .3125rem;
+  margin-bottom: .3125rem;
 }
 
 img {
   max-width: 100%;
   height: auto;
+  display: inline-block;
 }
 
 * {

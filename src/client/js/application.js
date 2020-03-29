@@ -41,11 +41,11 @@ const numDays = (date) => {
 const updateUI = (data, departure) => {
     const formattedDate = formatDate(departure);
     const daysUntilTrip = numDays(departure);
-    document.getElementById('trip-date').innerHTML = `Your trip on ${formattedDate} is ${daysUntilTrip} day(s) away.`;
-    document.getElementById('summary').innerHTML = `Summary: ${data.summary}`;
-    document.getElementById('high-temp').innerHTML = `High Temperature: ${data.highTemp}` + '\u00B0' + 'F.';
-    document.getElementById('low-temp').innerHTML = `Low Temperature: ${data.lowTemp}` + '\u00B0' + 'F.';
-    document.getElementById('picture').innerHTML = `<img src=${data.photoUrl}>`;
+    document.getElementById('results__date').innerHTML = `Your trip on ${formattedDate} is ${daysUntilTrip} day(s) away.`;
+    document.getElementById('results__summary').innerHTML = `Summary: ${data.summary}`;
+    document.getElementById('results__high').innerHTML = `High Temperature: ${data.highTemp}` + '\u00B0' + 'F.';
+    document.getElementById('results__low').innerHTML = `Low Temperature: ${data.lowTemp}` + '\u00B0' + 'F.';
+    document.getElementById('results__picture').innerHTML = `<img src=${data.photoUrl}>`;
 }
 
 function handleSubmit(evt) {
