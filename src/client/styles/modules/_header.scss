@@ -1,0 +1,12 @@
+.header {
+    display: flex;
+    border-bottom: 1px solid $columbia-blue;
+
+    &__logo {
+        width: 100px;
+    }
+
+    h1 {
+        color: $paynes-grey;
+    }
+}
