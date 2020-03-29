@@ -1,5 +1,9 @@
-.header {
-    h1 {
-        color: red;
+.entry {
+    &__submit {
+        background-color: $paynes-grey;
+        color: $white-smoke;
+        border: 0;
+        padding: .75rem 1.2rem;
+        display: inline-block;
     }
 }
