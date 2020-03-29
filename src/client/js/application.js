@@ -45,6 +45,7 @@ const updateUI = (data, departure) => {
     document.getElementById('summary').innerHTML = `Summary: ${data.summary}`;
     document.getElementById('high-temp').innerHTML = `High Temperature: ${data.highTemp}` + '\u00B0' + 'F.';
     document.getElementById('low-temp').innerHTML = `Low Temperature: ${data.lowTemp}` + '\u00B0' + 'F.';
+    document.getElementById('picture').innerHTML = `<img src=${data.photoUrl}>`;
 }
 
 function handleSubmit(evt) {
