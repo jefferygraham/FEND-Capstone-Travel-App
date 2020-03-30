@@ -5,6 +5,10 @@
     &__label {
         color: $white-smoke;
         font-size: 1.1rem;
+
+        @mixin tablet {
+            font-size: 3.4rem;
+        }
     }
 
     &__form {
@@ -13,6 +17,11 @@
         transform: translateY(-35%);    
         left: 0;
         width: 100%;
+
+        @mixin tablet {
+            top: 50%;
+            transform: translateY(-50%); 
+        }
     }
 
     &__text, &__date {

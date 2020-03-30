@@ -3,6 +3,7 @@ import { handleSubmit } from './js/application';
 import './styles/styles.scss';
 import svg from './media/travel-planner.svg';
 import img from './media/travel-planner_1280.jpg';
+import imgTablet from './media/travel-planner_1280_tablet.jpg';
 
 
 export { handleSubmit };

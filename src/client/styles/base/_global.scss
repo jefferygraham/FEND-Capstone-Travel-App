@@ -9,6 +9,10 @@ body {
     min-height: 100%;
     display: grid;
     grid-template-rows: 4.6875rem 1fr 2fr 3.125rem;
+
+    @mixin tablet {
+      grid-template-rows: 6rem 1fr 2fr 3.125rem;
+    }
 }
 
 label, input {
@@ -20,7 +24,6 @@ label, input {
 img {
   max-width: 100%;
   height: auto;
-  display: inline-block;
 }
 
 * {

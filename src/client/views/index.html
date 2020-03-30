@@ -12,7 +12,10 @@
         <h1 class="header__title">Travel Planner</h1>
     </header>
     <section class="entry">
-        <img src="../media/travel-planner_1280.jpg" >   
+        <picture>
+            <source srcset="../media/travel-planner_1280_tablet.jpg" media="(min-width:640px)" >
+            <img srcset="../media/travel-planner_1280.jpg 640w" > 
+        </picture>  
         <form class="entry__form" onsubmit="return Client.handleSubmit(event)">
             <label class="entry__label" for="destination">Destination:</label>
             <input class="entry__text" type="text" id="destination" name="destination" required>
