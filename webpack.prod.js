@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const workboxPlugin = require('workbox-webpack-plugin');
 const postCSSPlugins = [
     require('postcss-import'),
     require('postcss-simple-vars'),
@@ -51,6 +52,11 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: '[name].css'
+        }),
+        new workboxPlugin.GenerateSW({
+            swDest: 'sw.js',
+            clientsClaim: true,
+            skipWaiting: true,
         })
     ]
 }

@@ -35,8 +35,17 @@
         </div>
     </section>
     <footer class="footer container">
-        <p class="footer__text">Copyright</p>
+        <p class="footer__text">&copy; Copyright 2020</p>
     </footer>
     <script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script>
+    <script>
+        // Check that service workers are supported
+        if ('serviceWorker' in navigator) {
+          // Use the window load event to keep the page load performant
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js');
+          });
+        }
+      </script>
 </body>
 </html>
