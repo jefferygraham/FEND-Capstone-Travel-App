@@ -22,6 +22,7 @@ const postFormData = async (url = '', data = {}) => {
 
 const formatDate = (date) => {
     let d = new Date(date);
+    d = new Date(d.getTime() + d.getTimezoneOffset() * 60000);
     let month = d.toLocaleString('default', { month: 'long' });
     let day = d.getDate();
     let year = d.getFullYear();
