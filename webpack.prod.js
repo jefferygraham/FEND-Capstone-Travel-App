@@ -37,6 +37,10 @@ module.exports = {
             {
                 test: /\.scss$/i,
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader', { loader: 'postcss-loader', options: { plugins: postCSSPlugins } }],
+            },
+            {
+                test: /\.(gif|png|jpe?g|svg)$/i,
+                use: ['file-loader?name=[name].[ext]&outputPath=media']
             }
         ]
     },
