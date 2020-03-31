@@ -1,3 +1,5 @@
+import { addIcon } from './addIcon';
+
 const postFormData = async (url = '', data = {}) => {
     const response = await fetch(url, {
         method: 'POST',
@@ -41,6 +43,9 @@ const numDays = (date) => {
 const updateUI = (data, departure) => {
     const formattedDate = formatDate(departure);
     const daysUntilTrip = numDays(departure);
+
+    addIcon(data.icon);
+
     document.getElementById('results__date').innerHTML = `Your trip on ${formattedDate} is ${daysUntilTrip} day(s) away.`;
     document.getElementById('results__summary').innerHTML = `Summary: ${data.summary}`;
     document.getElementById('results__high').innerHTML = `High Temperature: ${data.highTemp}` + '\u00B0' + 'F.';
