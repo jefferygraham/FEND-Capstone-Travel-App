@@ -32,7 +32,7 @@ The project has two modes: development & production.
 
   
 
-To run in development mode on port 8080
+To run in development mode on port 3000
 
   
 
