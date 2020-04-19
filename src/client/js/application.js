@@ -61,7 +61,7 @@ function handleSubmit(evt) {
     let destination = document.getElementById('destination').value;
     let departure = document.getElementById('departure').value;
 
-    postFormData('http://localhost:8081/destination', { destination: destination, departure: departure })
+    postFormData('/destination', { destination: destination, departure: departure })
         .then((data) => {
             updateUI(data, departure);
         })
